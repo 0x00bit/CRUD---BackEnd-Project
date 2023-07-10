@@ -1,3 +1,36 @@
+<?php
+    try{
+        $pdo = new PDO("mysql:dbname=users;host=localhost","php_user","phppass");
+            //BD Name, host, user and pass
+
+    }
+    catch(PDOException $e){
+        echo "Erro ao tentar conectar ao Banco de Dados! ".$e->getMessage();
+    }
+    catch(Exception $a){
+        echo "Ocorreu um erro! ".$a->getMessage();
+    }
+    /*
+    $name = $_POST['name']
+    $height =
+    $nacionality = 
+    $gender = 
+    $db = 
+    $weight =
+    */
+    $res = $pdo->prepare("INSERT INTO clients (name,height,nacionality,gender,date_birth,weight)
+    VALUES (:nam,:height,:nacio,:gender,:db,:wei)");
+
+    $res->bindParam(":nam",$_POST['nome']);
+    $res->bindParam(":height",$_POST['altura']);
+    $res->bindParam(":nacio",$_POST['nacionalidade']);
+    $res->bindParam(":gender",$_POST['sexo']);
+    $res->bindParam(":db",$_POST['nascimemto']);
+    $res->bindParam(":wei",$_POST['peso']);
+    //$res->execute();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,8 +107,16 @@
         <input type="submit" value="Enviar">
     </form>
 
-<?php
-?>
-
+    <table>
+    <tr>
+      <th>Nome</th>
+      <th>Altura</th>
+      <th>Nacionalidade</th>
+      <th>Sexo</th>
+      <th>Nascimento</th>
+      <th>Peso</th>
+    </tr>
+    <!-- Adicione mais linhas conforme necessário -->
+  </table>
 </body>
 </html>
