@@ -75,31 +75,6 @@
     </form>
 
 <?php
-    $nome = $_POST['nome'];
-    $altura = $_POST['altura'];
-    $nacionalidade = $_POST['nacionalidade'];
-    $sexo = $_POST['sexo'];
-    $nascimento = $_POST['nascimento'];
-    $peso = $_POST['peso'];
-
-    $user = "root";
-    $password = "";
-    #$host = "localhost";
-    #$database = "cadastro";
-    $sql = "INSERT INTO clientes (nome, altura, nacionalidade, sexo, nascimento, peso) VALUES ('$nome','$altura','$nacionalidade','$sexo','$nascimento','$peso')";
-    
-    $conn = 'mysql:dbname=cadastro;host:localhost';
-    $dbh = new PDO($conn,$user,$password);
-    $dbh.prepare($sql);
-    $dbh.execute();
-    #if(!$conexao)
-    #{
-    #    die("Não foi possível conectar ao banco de dados" . mysqli_connect_error());
-    #}
-    #echo "Sucesso ao se conectar ao banco de dados!"
-    
-    #$sqlresult = mysqli_query($conexao,$sql);
-    #mysqli_close($conexao);
 ?>
 
 </body>
