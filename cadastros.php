@@ -1,34 +1,38 @@
 <?php
+    if(isset($_POST['nome'])){
+        $nome = $_POST['nome'];
+    }
+    if(isset($_POST['altura'])){
+        $altura = $_POST['altura'];
+    }
+    if(isset($_POST['nacionalidade'])){
+        $nacionalidade = $_POST['nacionalidade'];
+    }
+    if(isset($_POST['sexo'])){
+        $sexo = $_POST['sexo'];
+    }
+    if(isset($_POST['nascimento'])){
+        $nascimento = $_POST['nascimento'];
+    }
+    if(isset($_POST['peso'])){
+        $peso = $_POST['peso'];
+    }
+
     try{
-        $pdo = new PDO("mysql:dbname=users;host=localhost","php_user","phppass");
-            //BD Name, host, user and pass
-
+        $pdo = new PDO("mysql:dbname=cadastros;host=localhost;","root","");
+    }catch(PDOExeception $e){
+        echo "Erro ao tentar se conectar com o banco de dados!".$e->getMessage();
     }
-    catch(PDOException $e){
-        echo "Erro ao tentar conectar ao Banco de Dados! ".$e->getMessage();
+    catch(Exeception $e){
+        echo "Ocorreu um erro".$e->getMensage();
     }
-    catch(Exception $a){
-        echo "Ocorreu um erro! ".$a->getMessage();
-    }
-    /*
-    $name = $_POST['name']
-    $height =
-    $nacionality = 
-    $gender = 
-    $db = 
-    $weight =
-    */
-    $res = $pdo->prepare("INSERT INTO clients (name,height,nacionality,gender,date_birth,weight)
-    VALUES (:nam,:height,:nacio,:gender,:db,:wei)");
+    //DB name >> host >> user >> password
 
-    $res->bindParam(":nam",$_POST['nome']);
-    $res->bindParam(":height",$_POST['altura']);
-    $res->bindParam(":nacio",$_POST['nacionalidade']);
-    $res->bindParam(":gender",$_POST['sexo']);
-    $res->bindParam(":db",$_POST['nascimemto']);
-    $res->bindParam(":wei",$_POST['peso']);
-    //$res->execute();
+    $payload = $pdo->prepare("INSERT INTO clients(nome, altura, nacionalidade, sexo, nascimento, peso)
+    VALUES (?,?,?,?,?,?)");
 
+    $payload->execute([$nome,$altura,$nacionalidade,$sexo,$nascimento,$peso]);
+    
 ?>
 
 <!DOCTYPE html>
@@ -107,16 +111,5 @@
         <input type="submit" value="Enviar">
     </form>
 
-    <table>
-    <tr>
-      <th>Nome</th>
-      <th>Altura</th>
-      <th>Nacionalidade</th>
-      <th>Sexo</th>
-      <th>Nascimento</th>
-      <th>Peso</th>
-    </tr>
-    <!-- Adicione mais linhas conforme necessário -->
-  </table>
 </body>
 </html>
