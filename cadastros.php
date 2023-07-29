@@ -1,36 +1,30 @@
 <?php
 
-    if(isset($_POST['nome'])){
-        $conta = $_POST['nome'];
-    }
-    if(isset($_POST['empresa'])){
-        $empresa = $_POST['empresa'];
-    }
-    if(isset($_POST['banco'])){
-        $banco = $_POST['banco'];
-    }
-    if(isset($_POST['agencia'])){
-        $agencia = $_POST['agencia'];
-    }
-    if(isset($_POST['contac'])){
-        $contac = $_POST['contac'];
-    }
+global $pdo;
+global $payload;
 
-    /*try{
-        $pdo = new PDO("mysql:dbname=registros;host=localhost;","root","");
-    }catch(PDOExeception $e){
-        echo "Erro ao tentar se conectar com o banco de dados!".$e->getMessage();
-    }
-    catch(Exeception $e){
-        echo "Ocorreu um erro".$e->getMensage();
-    }
-    //DB name >> host >> user >> password
+try{
+    $pdo = new PDO("mysql:dbname=registros;host=localhost;","root","");
+}catch(PDOExeception $e){
+    echo "Erro ao tentar se conectar com o banco de dados!".$e->getMessage();
+}
+catch(Exeception $e){
+    echo "Ocorreu um erro".$e->getMensage();
+}
 
-    $payload = $pdo->prepare("INSERT INTO funcionarios(nome, empresa, banco, agencia, contac)
-    VALUES (?,?,?,?,?,?)");
+if(isset($_POST['nome']) && isset($_POST['empresa']) && isset($_POST['banco']) && isset($_POST['agencia']) && isset($_POST['contac'])){
+    $nome = $_POST['nome'];
+    $empresa = $_POST['empresa'];
+    $banco = $_POST['banco'];
+    $agencia = $_POST['agencia'];
+    $contac = $_POST['contac'];
+}
 
-    $payload->execute([$nome,$altura,$nacionalidade,$sexo,$nascimento,$peso]);*/
-    
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $payload = $pdo->prepare("INSERT INTO funcionarios(nome, empresa, banco, agencia, contac) VALUES (?,?,?,?,?)");
+    $payload->execute([$nome,$empresa,$banco,$agencia,$contac]);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -87,11 +81,19 @@
         #btn{
             font-family: 'Poppins';
         }
+        #redirect{
+            text-align: center;
+            color: red;
+            margin-left: 440px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
     <h1>Portal de Cadastramento</h1>
     <h3>Cadastros de contas salário - Folha de funcionários</h3>
+    
     <form action="cadastros.php" name="cadastro" method="POST">
         <label for="Conta">Nome</label>
         <input type="text" name="nome" required>
@@ -110,6 +112,7 @@
         
         <input type="submit" value="Enviar" id="btn">
     </form>
-
+    </br>
+    <a href=".\registros.php" id="redirect">clique aqui checar ou atualizar a base cadastral</a>
 </body>
 </html>
